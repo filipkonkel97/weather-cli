@@ -5,6 +5,7 @@ mod config;
 mod error;
 mod models;
 
+use crate::models::CurrentWeather;
 use clap::Parser;
 use cli::{Cli, Commands};
 
