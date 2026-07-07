@@ -12,7 +12,17 @@ pub async fn run(city: String) -> Result<()> {
     println!("Forecast for {}\n", forecast.city.name);
 
     for item in forecast.list.iter().take(5) {
-        println!("{} -> {}°C", item.dt_txt, item.main.temp);
+        let weather = &item.weather[0];
+
+        println!("--------------------------------");
+        println!("{}", item.dt_txt);
+        println!("Temperature: {}°C", item.main.temp);
+        println!("Feels like: {}°C", item.main.feels_like);
+        println!("Humidity: {}%", item.main.humidity);
+        println!("Pressure: {} hPa", item.main.pressure);
+        println!("Wind speed: {} m/s", item.wind.speed);
+        println!("Description: {}", weather.description);
+        println!("Pop: {:.0}%", item.pop * 100.0);
     }
 
     Ok(())
