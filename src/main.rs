@@ -5,7 +5,6 @@ mod config;
 mod error;
 mod models;
 
-use crate::models::CurrentWeather;
 use clap::Parser;
 use cli::{Cli, Commands};
 
@@ -19,6 +18,9 @@ async fn main() -> anyhow::Result<()> {
         }
         Commands::Current { city } => {
             commands::current::run(city).await?;
+        }
+        Commands::Forecast { city } => {
+            commands::forecast::run(city).await?;
         }
     }
 

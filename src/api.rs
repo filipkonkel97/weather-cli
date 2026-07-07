@@ -1,7 +1,7 @@
 use anyhow::Result;
 use reqwest::Client;
 
-use crate::models::CurrentWeather;
+use crate::models::{CurrentWeather, ForecastResponse};
 
 pub struct WeatherClient {
     client: reqwest::Client,
@@ -27,6 +27,22 @@ impl WeatherClient {
             .await?
             .error_for_status()?
             .json::<CurrentWeather>()
+            .await?;
+
+        Ok(response)
+    }
+
+    pub async fn weather_forecast(&self, city: &str) -> Result<ForecastResponse> {
+        let url = "https://api.openweathermap.org/data/2.5/forecast";
+
+        let response = self
+            .client
+            .get(url)
+            .query(&[("q", city), ("appid", &self.api_key), ("units", "metric")])
+            .send()
+            .await?
+            .error_for_status()?
+            .json::<ForecastResponse>()
             .await?;
 
         Ok(response)

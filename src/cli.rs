@@ -13,4 +13,5 @@ pub struct Cli {
 pub enum Commands {
     Login,
     Current { city: String },
+    Forecast { city: String },
 }

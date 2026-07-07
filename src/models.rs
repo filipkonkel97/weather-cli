@@ -25,3 +25,21 @@ pub struct Main {
 pub struct Wind {
     pub speed: f64,
 }
+
+#[derive(Debug, Deserialize)]
+pub struct ForecastResponse {
+    pub list: Vec<ForecastItem>,
+    pub city: ForecastCity,
+}
+
+#[derive(Debug, Deserialize)]
+pub struct ForecastItem {
+    pub dt_txt: String,
+    pub main: Main,
+    pub weather: Vec<Weather>,
+}
+
+#[derive(Debug, Deserialize)]
+pub struct ForecastCity {
+    pub name: String,
+}
