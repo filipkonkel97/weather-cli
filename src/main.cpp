@@ -7,9 +7,7 @@ bool has_valid_arguments(int argc, char *argv[]);
 int main(int argc, char *argv[])
 {
     std::string city;
-    bool check_validity;
-    check_validity = has_valid_arguments(argc, argv);
-    if (check_validity == true)
+    if (has_valid_arguments(argc, argv))
     {
         city = get_city(argc, argv);
         std::cout << "Fetching weather for: " << city << '\n';
@@ -22,26 +20,10 @@ int main(int argc, char *argv[])
 
 std::string get_city(int argc, char *argv[])
 {
-    std::string city;
-    if (argc >= 3 && std::string(argv[1]) == "--city")
-    {
-        city = argv[2];
-        return city;
-    }
-    else
-    {
-        return "";
-    }
+    return argv[2];
 }
 
 bool has_valid_arguments(int argc, char *argv[])
 {
-    if (argc >= 3 && std::string(argv[1]) == "--city" && !std::string(argv[2]).empty())
-    {
-        return true;
-    }
-    else
-    {
-        return false;
-    }
+    return argc >= 3 && std::string(argv[1]) == "--city" && !std::string(argv[2]).empty();
 }
