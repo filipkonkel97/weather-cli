@@ -1,3 +1,0 @@
-/home/filip/openweather-cli/build/CMakeFiles/weather.dir
-/home/filip/openweather-cli/build/CMakeFiles/edit_cache.dir
-/home/filip/openweather-cli/build/CMakeFiles/rebuild_cache.dir
