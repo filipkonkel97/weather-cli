@@ -59,6 +59,10 @@ Arguments parse_arguments(int argc, char *argv[])
         else if (arg == "--units" && i + 1 < argc)
         {
             args.units = argv[i + 1];
+            if (args.units != "metric" && args.units != "imperial")
+            {
+                args.command = Command::Invalid;
+            }
             i++;
         }
     }
