@@ -1,16 +1,29 @@
 #include <iostream>
 #include <string>
 
-std::string get_city(int argc, char *argv[]);
-bool has_valid_arguments(int argc, char *argv[]);
+enum class Command
+{
+    Help,
+    City,
+    Invalid
+};
+
+std::string get_city(char *argv[]);
+Command parse_arguments(int argc, char *argv[]);
 
 int main(int argc, char *argv[])
 {
     std::string city;
-    if (has_valid_arguments(argc, argv))
+    Command command = parse_arguments(argc, argv);
+
+    if (command == Command::City)
     {
-        city = get_city(argc, argv);
+        city = get_city(argv);
         std::cout << "Fetching weather for: " << city << '\n';
+    }
+    else if (command == Command::Help)
+    {
+        std::cout << "Using weather --help\n";
     }
     else
     {
@@ -18,12 +31,23 @@ int main(int argc, char *argv[])
     }
 }
 
-std::string get_city(int argc, char *argv[])
+std::string get_city(char *argv[])
 {
     return argv[2];
 }
 
-bool has_valid_arguments(int argc, char *argv[])
+Command parse_arguments(int argc, char *argv[])
 {
-    return argc >= 3 && std::string(argv[1]) == "--city" && !std::string(argv[2]).empty();
+    if (argc >= 3 && std::string(argv[1]) == "--city" && !std::string(argv[2]).empty())
+    {
+        return Command::City;
+    }
+    else if (argc >= 2 && std::string(argv[1]) == "--help")
+    {
+        return Command::Help;
+    }
+    else
+    {
+        return Command::Invalid;
+    }
 }
