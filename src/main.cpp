@@ -15,7 +15,6 @@ struct Arguments
     std::string units = "metric";
 };
 
-std::string get_city(char *argv[]);
 Arguments parse_arguments(int argc, char *argv[]);
 
 int main(int argc, char *argv[])
@@ -25,7 +24,7 @@ int main(int argc, char *argv[])
 
     if (args.command == Command::City)
     {
-        city = get_city(argv);
+        city = args.city;
         std::cout << "Fetching weather for: " << city << '\n';
         std::cout << "Units: " << args.units << '\n';
     }
@@ -37,11 +36,6 @@ int main(int argc, char *argv[])
     {
         std::cout << "Usage: weather --city <city_name>\n";
     }
-}
-
-std::string get_city(char *argv[])
-{
-    return argv[2];
 }
 
 Arguments parse_arguments(int argc, char *argv[])
@@ -60,6 +54,11 @@ Arguments parse_arguments(int argc, char *argv[])
         {
             args.city = argv[i + 1];
             args.command = Command::City;
+            i++;
+        }
+        else if (arg == "--units" && i + 1 < argc)
+        {
+            args.units = argv[i + 1];
             i++;
         }
     }
