@@ -50,20 +50,34 @@ Arguments parse_arguments(int argc, char *argv[])
         {
             args.command = Command::Help;
         }
-        else if (arg == "--city" && i + 1 < argc)
+        else if (arg == "--city")
         {
-            args.city = argv[i + 1];
-            args.command = Command::City;
-            i++;
-        }
-        else if (arg == "--units" && i + 1 < argc)
-        {
-            args.units = argv[i + 1];
-            if (args.units != "metric" && args.units != "imperial")
+            if (i + 1 < argc)
+            {
+                args.city = argv[i + 1];
+                args.command = Command::City;
+                i++;
+            }
+            else
             {
                 args.command = Command::Invalid;
             }
-            i++;
+        }
+        else if (arg == "--units")
+        {
+            if (i + 1 < argc)
+            {
+                args.units = argv[i + 1];
+                if (args.units != "metric" && args.units != "imperial")
+                {
+                    args.command = Command::Invalid;
+                }
+                i++;
+            }
+            else
+            {
+                args.command = Command::Invalid;
+            }
         }
     }
 
