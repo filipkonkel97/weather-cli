@@ -8,20 +8,28 @@ enum class Command
     Invalid
 };
 
+struct Arguments
+{
+    Command command = Command::Invalid;
+    std::string city;
+    std::string units = "metric";
+};
+
 std::string get_city(char *argv[]);
-Command parse_arguments(int argc, char *argv[]);
+Arguments parse_arguments(int argc, char *argv[]);
 
 int main(int argc, char *argv[])
 {
     std::string city;
-    Command command = parse_arguments(argc, argv);
+    Arguments args = parse_arguments(argc, argv);
 
-    if (command == Command::City)
+    if (args.command == Command::City)
     {
         city = get_city(argv);
         std::cout << "Fetching weather for: " << city << '\n';
+        std::cout << "Units: " << args.units << '\n';
     }
-    else if (command == Command::Help)
+    else if (args.command == Command::Help)
     {
         std::cout << "Using weather --help\n";
     }
@@ -36,18 +44,25 @@ std::string get_city(char *argv[])
     return argv[2];
 }
 
-Command parse_arguments(int argc, char *argv[])
+Arguments parse_arguments(int argc, char *argv[])
 {
-    if (argc >= 3 && std::string(argv[1]) == "--city" && !std::string(argv[2]).empty())
+    Arguments args;
+
+    for (int i = 1; i < argc; i++)
     {
-        return Command::City;
+        std::string arg = argv[i];
+
+        if (arg == "--help")
+        {
+            args.command = Command::Help;
+        }
+        else if (arg == "--city" && i + 1 < argc)
+        {
+            args.city = argv[i + 1];
+            args.command = Command::City;
+            i++;
+        }
     }
-    else if (argc >= 2 && std::string(argv[1]) == "--help")
-    {
-        return Command::Help;
-    }
-    else
-    {
-        return Command::Invalid;
-    }
+
+    return args;
 }
